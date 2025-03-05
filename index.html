@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B站类App原型</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .prototype-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: white;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border: 10px solid #121212;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .screen iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .screen-label {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-purple-700 text-white p-6">
+        <h1 class="text-3xl font-bold">B站类App原型设计</h1>
+        <p class="mt-2">高保真UI原型，模拟iPhone 15 Pro尺寸</p>
+    </header>
+
+    <div class="prototype-container">
+        <!-- 首页 -->
+        <div class="phone-frame">
+            <div class="screen">
+                <iframe src="home.html"></iframe>
+                <div class="screen-label">首页</div>
+            </div>
+        </div>
+
+        <!-- 视频播放页 -->
+        <div class="phone-frame">
+            <div class="screen">
+                <iframe src="video.html"></iframe>
+                <div class="screen-label">视频播放页</div>
+            </div>
+        </div>
+
+        <!-- 个人资料页 -->
+        <div class="phone-frame">
+            <div class="screen">
+                <iframe src="profile.html"></iframe>
+                <div class="screen-label">个人资料页</div>
+            </div>
+        </div>
+
+        <!-- 消息页 -->
+        <div class="phone-frame">
+            <div class="screen">
+                <iframe src="messages.html"></iframe>
+                <div class="screen-label">消息页</div>
+            </div>
+        </div>
+
+        <!-- 动态页 -->
+        <div class="phone-frame">
+            <div class="screen">
+                <iframe src="feed.html"></iframe>
+                <div class="screen-label">动态页</div>
+            </div>
+        </div>
+
+        <!-- 设置页 -->
+        <div class="phone-frame">
+            <div class="screen">
+                <iframe src="settings.html"></iframe>
+                <div class="screen-label">设置页</div>
+            </div>
+        </div>
+
+        <!-- 隐私设置页 -->
+        <div class="phone-frame">
+            <div class="screen">
+                <iframe src="privacy_settings.html"></iframe>
+                <div class="screen-label">隐私设置页</div>
+            </div>
+        </div>
+
+        <!-- 账号与安全页 -->
+        <div class="phone-frame">
+            <div class="screen">
+                <iframe src="account_security.html"></iframe>
+                <div class="screen-label">账号与安全页</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

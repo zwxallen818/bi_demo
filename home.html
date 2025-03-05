@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - B站类App</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f7f9;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 状态栏样式 */
+        .status-bar {
+            height: 44px;
+            background-color: #fb7299;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        /* 导航栏样式 */
+        .tab-bar {
+            height: 50px;
+            background-color: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 50;
+        }
+        
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 10px;
+        }
+        
+        .tab-item.active {
+            color: #fb7299;
+        }
+        
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+        
+        /* 内容区域 */
+        .content {
+            height: calc(100vh - 94px); /* 状态栏+底部导航的高度 */
+            overflow-y: auto;
+            padding-bottom: 50px;
+        }
+        
+        /* 分类导航 */
+        .category-nav {
+            display: flex;
+            overflow-x: auto;
+            background-color: white;
+            padding: 10px 0;
+            margin-bottom: 8px;
+            white-space: nowrap;
+        }
+        
+        .category-item {
+            padding: 5px 12px;
+            margin: 0 5px;
+            border-radius: 15px;
+            font-size: 14px;
+        }
+        
+        .category-item.active {
+            background-color: #fb7299;
+            color: white;
+        }
+        
+        /* 视频卡片 */
+        .video-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            padding-top: 56.25%; /* 16:9比例 */
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .video-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            padding: 1px 4px;
+            border-radius: 2px;
+            font-size: 12px;
+        }
+        
+        .video-info {
+            padding: 8px 10px;
+        }
+        
+        .video-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .video-stats {
+            display: flex;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .video-stat {
+            margin-right: 12px;
+        }
+        
+        /* 隐藏滚动条但保留功能 */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="flex items-center">
+            <i class="fas fa-home mr-2"></i>
+            <span>首页</span>
+        </div>
+        <div class="flex items-center">
+            <i class="fas fa-search mr-4"></i>
+            <i class="fas fa-download"></i>
+        </div>
+    </div>
+    
+    <!-- 内容区域 -->
+    <div class="content">
+        <!-- 分类导航 -->
+        <div class="category-nav">
+            <div class="category-item active">推荐</div>
+            <div class="category-item">热门</div>
+            <div class="category-item">动画</div>
+            <div class="category-item">游戏</div>
+            <div class="category-item">音乐</div>
+            <div class="category-item">舞蹈</div>
+            <div class="category-item">知识</div>
+            <div class="category-item">科技</div>
+            <div class="category-item">运动</div>
+            <div class="category-item">汽车</div>
+            <div class="category-item">生活</div>
+            <div class="category-item">美食</div>
+            <div class="category-item">动物</div>
+            <div class="category-item">时尚</div>
+        </div>
+        
+        <!-- 视频列表 -->
+        <div class="px-2">
+            <!-- 视频卡片1 -->
+            <div class="video-card">
+                <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')">
+                    <div class="video-duration">12:34</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">超可爱猫咪日常，治愈你的心情！萌宠日常合集</div>
+                    <div class="video-stats">
+                        <div class="video-stat"><i class="fas fa-play mr-1"></i>45.6万</div>
+                        <div class="video-stat"><i class="fas fa-comment mr-1"></i>1.2万</div>
+                        <div class="video-stat">UP主: 萌宠日记</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 视频卡片2 -->
+            <div class="video-card">
+                <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')">
+                    <div class="video-duration">21:09</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">2023年最新游戏评测：《原神》3.0版本全面解析</div>
+                    <div class="video-stats">
+                        <div class="video-stat"><i class="fas fa-play mr-1"></i>102.3万</div>
+                        <div class="video-stat"><i class="fas fa-comment mr-1"></i>3.5万</div>
+                        <div class="video-stat">UP主: 游戏评测局</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 视频卡片3 -->
+            <div class="video-card">
+                <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')">
+                    <div class="video-duration">07:42</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">美食vlog：在家也能做的米其林三星料理，简单易学</div>
+                    <div class="video-stats">
+                        <div class="video-stat"><i class="fas fa-play mr-1"></i>78.9万</div>
+                        <div class="video-stat"><i class="fas fa-comment mr-1"></i>2.1万</div>
+                        <div class="video-stat">UP主: 美食小当家</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 视频卡片4 -->
+            <div class="video-card">
+                <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')">
+                    <div class="video-duration">15:23</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">音乐现场：周杰伦2023最新演唱会精彩片段合集</div>
+                    <div class="video-stats">
+                        <div class="video-stat"><i class="fas fa-play mr-1"></i>324.5万</div>
+                        <div class="video-stat"><i class="fas fa-comment mr-1"></i>8.7万</div>
+                        <div class="video-stat">UP主: 音乐现场</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 视频卡片5 -->
+            <div class="video-card">
+                <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')">
+                    <div class="video-duration">18:56</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">科技前沿：最新AI技术如何改变我们的生活</div>
+                    <div class="video-stats">
+                        <div class="video-stat"><i class="fas fa-play mr-1"></i>67.8万</div>
+                        <div class="video-stat"><i class="fas fa-comment mr-1"></i>1.9万</div>
+                        <div class="video-stat">UP主: 科技最前线</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <div class="tab-item active">
+            <i class="tab-icon fas fa-home"></i>
+            <span>首页</span>
+        </div>
+        <div class="tab-item">
+            <i class="tab-icon fas fa-compass"></i>
+            <span>动态</span>
+        </div>
+        <div class="tab-item">
+            <i class="tab-icon fas fa-plus-circle text-xl"></i>
+            <span></span>
+        </div>
+        <div class="tab-item">
+            <i class="tab-icon fas fa-bell"></i>
+            <span>消息</span>
+        </div>
+        <div class="tab-item">
+            <i class="tab-icon fas fa-user"></i>
+            <span>我的</span>
+        </div>
+    </div>
+</body>
+</html>

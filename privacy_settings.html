@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隐私设置 - B站类App</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f7f9;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 状态栏样式 */
+        .status-bar {
+            height: 44px;
+            background-color: #fb7299;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        /* 内容区域 */
+        .content {
+            height: calc(100vh - 44px);
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+        
+        /* 设置组 */
+        .settings-group {
+            margin-bottom: 10px;
+            background-color: white;
+        }
+        
+        .settings-header {
+            padding: 10px 16px;
+            font-size: 13px;
+            color: #999;
+        }
+        
+        .settings-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: #666;
+        }
+        
+        .settings-content {
+            flex: 1;
+        }
+        
+        .settings-title {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        
+        .settings-description {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .settings-value {
+            font-size: 14px;
+            color: #999;
+            margin-right: 8px;
+        }
+        
+        .settings-arrow {
+            color: #ccc;
+        }
+        
+        /* 开关按钮 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #fb7299;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        
+        /* 隐藏滚动条但保留功能 */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="flex items-center">
+            <i class="fas fa-arrow-left mr-4"></i>
+            <span>隐私设置</span>
+        </div>
+    </div>
+    
+    <!-- 内容区域 -->
+    <div class="content">
+        <!-- 个人信息可见性 -->
+        <div class="settings-group">
+            <div class="settings-header">个人信息可见性</div>
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-title">个人资料可见性</div>
+                    <div class="settings-description">设置谁可以查看你的个人资料</div>
+                </div>
+                <div class="settings-value">所有人</div>
+                <div class="settings-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-title">观看历史可见性</div>
+                    <div class="settings-description">设置谁可以查看你的观看历史</div>
+                </div>
+                <div class="settings-value">仅自己</div>
+                <div class="settings-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-thumbs-up"></i>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-title">点赞内容可见性</div>
+                    <div class="settings-description">设置谁可以查看你点赞的内容</div>
+                </div>
+                <div class="settings-value">关注的人</div>
+                <div class="settings-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 互动隐私 -->
+        <div class="settings-group">
+            <div class="settings-header">互动隐私</div>
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-comment"></i>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-title">评论权限</div>
+                    <div class="settings-description">设置谁可以评论你的动态</div>
+                </div>
+                <div class="settings-value">所有人</div>
+                <div class="settings-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-at"></i>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-title">@我的权限</div>
+                    <div class="settings-description">设置谁可以@你</div>
+                </div>
+                <div class="settings-value">所有人</div>
+                <div class="settings-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 推送与通知 -->
+        <div class="settings-group">
+            <div class="settings-header">推送与通知</div>
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-title">推送通知权限</div>
+                    <div class="settings-description">管理应用推送通知权限</div>
+                </div>
+                <div class="settings-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-title">邮件通知</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-title">短信通知</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <!-- 数据隐私 -->
+        <div class="settings-group">
+            <div class="settings-header">数据隐私</div>
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-cookie"></i>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-title">Cookie设置</div>
+                    <div class="settings-description">管理网站Cookie使用权限</div>
+                </div>
+                <div class="settings-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-ad"></i>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-title">个性化广告</div>
+                    <div class="settings-description">是否接收基于兴趣的广告</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="settings-item">
+                <div class="settings-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-title">使用数据分析</div>
+                    <div class="settings-description">允许收集使用数据以改进服务</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

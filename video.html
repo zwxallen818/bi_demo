@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频播放页 - B站类App</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f7f9;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 状态栏样式 */
+        .status-bar {
+            height: 44px;
+            background-color: #000;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        /* 内容区域 */
+        .content {
+            height: calc(100vh - 44px);
+            overflow-y: auto;
+        }
+        
+        /* 视频播放器 */
+        .video-player {
+            width: 100%;
+            background-color: #000;
+            position: relative;
+        }
+        
+        .video-container {
+            width: 100%;
+            padding-top: 56.25%; /* 16:9比例 */
+            position: relative;
+        }
+        
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+        
+        /* 视频控制栏 */
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 10px;
+            color: white;
+        }
+        
+        .progress-bar {
+            height: 3px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 1.5px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 35%;
+            background-color: #fb7299;
+            border-radius: 1.5px;
+        }
+        
+        .control-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* 视频信息 */
+        .video-info {
+            padding: 15px;
+            background-color: white;
+        }
+        
+        .video-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .video-stats {
+            display: flex;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .video-stat {
+            margin-right: 15px;
+        }
+        
+        .uploader-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .uploader-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60');
+            background-size: cover;
+            margin-right: 10px;
+        }
+        
+        .uploader-name {
+            font-weight: 500;
+        }
+        
+        .uploader-followers {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .action-buttons {
+            display: flex;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        
+        .action-button {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .action-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        /* 评论区 */
+        .comments-section {
+            padding: 15px;
+            background-color: white;
+            margin-top: 10px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .comment-count {
+            color: #999;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        
+        .comment-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .comment-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-size: cover;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .comment-content {
+            flex: 1;
+        }
+        
+        .comment-user {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        
+        .comment-text {
+            font-size: 14px;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+        
+        .comment-meta {
+            display: flex;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .comment-time {
+            margin-right: 15px;
+        }
+        
+        /* 隐藏滚动条但保留功能 */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="flex items-center">
+            <i class="fas fa-arrow-left mr-4"></i>
+            <span>视频详情</span>
+        </div>
+        <div class="flex items-center">
+            <i class="fas fa-share-alt mr-4"></i>
+            <i class="fas fa-ellipsis-v"></i>
+        </div>
+    </div>
+    
+    <!-- 内容区域 -->
+    <div class="content">
+        <!-- 视频播放器 -->
+        <div class="video-player">
+            <div class="video-container">
+                <div class="video-placeholder">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="video-controls">
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="control-buttons">
+                        <div class="flex items-center">
+                            <i class="fas fa-play mr-3"></i>
+                            <span>01:23 / 21:09</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-expand"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 视频信息 -->
+        <div class="video-info">
+            <div class="video-title">2023年最新游戏评测：《原神》3.0版本全面解析</div>
+            <div class="video-stats">
+                <div class="video-stat"><i class="fas fa-play mr-1"></i>102.3万播放</div>
+                <div class="video-stat"><i class="fas fa-comment mr-1"></i>3.5万评论</div>
+                <div class="video-stat">2023-09-15</div>
+            </div>
+            
+            <div class="uploader-info">
+                <div class="uploader-avatar"></div>
+                <div>
+                    <div class="uploader-name">游戏评测局</div>
+                    <div class="uploader-followers">128.5万粉丝</div>
+                </div>
+                <button class="ml-auto bg-pink-500 text-white px-4 py-1 rounded-full text-sm">+ 关注</button>
+            </div>
+            
+            <div class="action-buttons">
+                <div class="action-button">
+                    <i class="action-icon fas fa-thumbs-up"></i>
+                    <span>4.5万</span>
+                </div>
+                <div class="action-button">
+                    <i class="action-icon fas fa-thumbs-down"></i>
+                    <span>不喜欢</span>
+                </div>
+                <div class="action-button">
+                    <i class="action-icon fas fa-star"></i>
+                    <span>收藏</span>
+                </div>
+                <div class="action-button">
+                    <i class="action-icon fas fa-share-alt"></i>
+                    <span>分享</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 评论区 -->
+        <div class="comments-section">
+            <div class="section-title">
+                <span>评论</span>
+                <span class="comment-count">3.5万</span>
+            </div>
+            
+            <!-- 评论项1 -->
+            <div class="comment-item">
+                <div class="comment-avatar" style="background-image: url('https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')"></div>
+                <div class="comment-content">
+                    <div class="comment-user">璃月资深玩家</div>
+                    <div class="comment-text">这个版本的新地图真的太美了，探索体验非常棒！期待UP主更多的解析视频。</div>
+                    <div class="comment-meta">
+                        <div class="comment-time">3小时前</div>
+                        <div class="flex items-center">
+                            <i class="fas fa-thumbs-up mr-1"></i>
+                            <span>2.4k</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 评论项2 -->
+            <div class="comment-item">
+                <div class="comment-avatar" style="background-image: url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')"></div>
+                <div class="comment-content">
+                    <div class="comment-user">须弥森林守护者</div>
+                    <div class="comment-text">新角色的技能机制很有创意，但是感觉有点过强了，希望官方能平衡一下。</div>
+                    <div class="comment-meta">
+                        <div class="comment-time">5小时前</div>
+                        <div class="flex items-center">
+                            <i class="fas fa-thumbs-up mr-1"></i>
+                            <span>1.8k</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 评论项3 -->
+            <div class="comment-item">
+                <div class="comment-avatar" style="background-image: url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')"></div>
+                <div class="comment-content">
+                    <div class="comment-user">提瓦特旅行者</div>
+                    <div class="comment-text">UP主分析得很到位，对新手玩家很有帮助。顺便问一下，你觉得新武器值得抽吗？</div>
+                    <div class="comment-meta">
+                        <div class="comment-time">昨天</div>
+                        <div class="flex items-center">
+                            <i class="fas fa-thumbs-up mr-1"></i>
+                            <span>956</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 更多评论 -->
+            <div class="text-center text-gray-500 text-sm mt-4">查看更多评

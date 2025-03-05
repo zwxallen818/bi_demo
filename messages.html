@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消息页 - B站类App</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f7f9;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 状态栏样式 */
+        .status-bar {
+            height: 44px;
+            background-color: #fb7299;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        /* 导航栏样式 */
+        .tab-bar {
+            height: 50px;
+            background-color: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 50;
+        }
+        
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 10px;
+        }
+        
+        .tab-item.active {
+            color: #fb7299;
+        }
+        
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+        
+        /* 内容区域 */
+        .content {
+            height: calc(100vh - 94px); /* 状态栏+底部导航的高度 */
+            overflow-y: auto;
+            padding-bottom: 50px;
+        }
+        
+        /* 消息分类导航 */
+        .message-nav {
+            display: flex;
+            background-color: white;
+            border-bottom: 1px solid #f0f0f0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .message-nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 15px;
+            position: relative;
+        }
+        
+        .message-nav-item.active {
+            color: #fb7299;
+            font-weight: 500;
+        }
+        
+        .message-nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 3px;
+            background-color: #fb7299;
+            border-radius: 1.5px;
+        }
+        
+        /* 消息列表 */
+        .message-list {
+            background-color: white;
+        }
+        
+        .message-item {
+            display: flex;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+        }
+        
+        .message-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .message-content {
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .message-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .message-time {
+            font-size: 12px;
+            color: #999;
+            white-space: nowrap;
+        }
+        
+        .message-preview {
+            font-size: 13px;
+            color: #666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .message-badge {
+            position: absolute;
+            top: 12px;
+            left: 50px;
+            width: 16px;
+            height: 16px;
+            background-color: #fb7299;
+            border-radius: 50%;
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+        
+        .system-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #fb7299;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        /* 隐藏滚动条但保留功能 */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="flex items-center">
+            <i class="fas fa-bell mr-2"></i>
+            <span>消息</span>
+        </div>
+        <div class="flex items-center">
+            <i class="fas fa-search mr-4"></i>
+            <i class="fas fa-ellipsis-v"></i>
+        </div>
+    </div>
+    
+    <!-- 内容区域 -->
+    <div class="content">
+        <!-- 消息分类导航 -->
+        <div class="message-nav">
+            <div class="message-nav-item active">全部</div>
+            <div class="message-nav-item">私信</div>
+            <div class="message-nav-item">@我</div>
+            <div class="message-nav-item">通知</div>
+        </div>
+        
+        <!-- 消息列表 -->
+        <div class="message-list">
+            <!-- 系统通知 -->
+            <div class="message-item">
+                <div class="system-icon">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-title">
+                        <span>系统通知</span>
+                        <span class="message-time">12:30</span>
+                    </div>
+                    <div class="message-preview">您的视频《原神3.0版本全面解析》已经审核通过！</div>
+                </div>
+                <div class="message-badge">1</div>
+            </div>
+            
+            <!-- 点赞通知 -->
+            <div class="message-item">
+                <div class="system-icon bg-red-400">
+                    <i class="fas fa-thumbs-up"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-title">
+                        <span>点赞和投币</span>
+                        <span class="message-time">昨天</span>
+                    </div>
+                    <div class="message-preview">璃月资深玩家等5人点赞了您的视频</div>
+                </div>
+            </div>
+            
+            <!-- 评论通知 -->
+            <div class="message-item">
+                <div class="system-icon bg-blue-400">
+                    <i class="fas fa-comment"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-title">
+                        <span>评论</span>
+                        <span class="message-time">昨天</span>
+                    </div>
+                    <div class="message-preview">提瓦特旅行者：UP主分析得很到位，对新手玩家很有帮助...</div>
+                </div>
+                <div class="message-badge">3</div>
+            </div>
+            
+            <!-- 私信1 -->
+            <div class="message-item">
+                <div class="message-avatar" style="background-image: url('https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')"></div>
+                <div class="message-content">
+                    <div class="message-title">
+                        <span>璃月资深玩家</span>
+                        <span class="message-time">昨天</span>
+                    </div>
+                    <div class="message-preview">你好，我想请教一下关于原神3.0版本的问题</div>
+                </div>
+            </div>
+            
+            <!-- 私信2 -->
+            <div class="message-item">
+                <div class="message-avatar" style="background-image: url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')"></div>
+                <div class="message-content">
+                    <div class="message-title">
+                        <span>须弥森林守护者</span>
+                        <span class="message-time">3天前</span>
+                    </div>
+                    <div class="message-preview">我觉得你的视频分析得很到位，能一起讨论一下游戏机制吗？</div>
+                </div>
+            </div>
+            
+            <!-- 私信3 -->
+            <div class="message-item">
+                <div class="message-avatar" style="background-image: url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')"></div>
+                <div class="message-content">
+                    <div class="message-title">
+                        <span>提瓦特旅行者</span>
+                        <span class="message-time">上周</span>
+                    </div>
+                    <div class="message-preview">谢谢你的回复，我已经按照你的建议调整了游戏设置</div>
+                </div>
+            </div>
+            
+            <!-- 关注通知 -->
+            <div class="message-item">
+                <div class="system-icon bg-green-400">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-title">
+                        <span>新增关注</span>
+                        <span class="message-time">上周</span>
+                    </div>
+                    <div class="message-preview">须弥森林守护者等8人关注了你</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <div class="tab-item">
+            <i class="tab-icon fas fa-home"></i>
+            <span>首页</span>
+        </div>
+        <div class="tab-item">
+            <i class="tab-icon fas fa-compass"></i>
+            <span>动态</span>
+        </div>
+        <div class="tab-item">
+            <i class="tab-icon fas fa-plus-circle text-xl"></i>
+            <span></span>
+        </div>
+        <div class="tab-item active">
+            <i class="tab-icon fas fa-bell"></i>
+            <span>消息</span>
+        </div>
+        <div class="tab-item">
+            <i class="tab-icon fas fa-user"></i>
+            <span>我的</span>
+        </div>
+    </div>
+</body>
+</html>
