@@ -16,7 +16,7 @@
             height: 100vh;
             overflow: hidden;
         }
-        
+
         /* 状态栏样式 */
         .status-bar {
             height: 44px;
@@ -31,7 +31,7 @@
             top: 0;
             z-index: 50;
         }
-        
+
         /* 导航栏样式 */
         .tab-bar {
             height: 50px;
@@ -43,7 +43,7 @@
             width: 100%;
             z-index: 50;
         }
-        
+
         .tab-item {
             flex: 1;
             display: flex;
@@ -53,23 +53,23 @@
             color: #999;
             font-size: 10px;
         }
-        
+
         .tab-item.active {
             color: #fb7299;
         }
-        
+
         .tab-icon {
             font-size: 20px;
             margin-bottom: 2px;
         }
-        
+
         /* 内容区域 */
         .content {
             height: calc(100vh - 94px); /* 状态栏+底部导航的高度 */
             overflow-y: auto;
             padding-bottom: 50px;
         }
-        
+
         /* 分类导航 */
         .category-nav {
             display: flex;
@@ -79,19 +79,19 @@
             margin-bottom: 8px;
             white-space: nowrap;
         }
-        
+
         .category-item {
             padding: 5px 12px;
             margin: 0 5px;
             border-radius: 15px;
             font-size: 14px;
         }
-        
+
         .category-item.active {
             background-color: #fb7299;
             color: white;
         }
-        
+
         /* 视频卡片 */
         .video-card {
             background-color: white;
@@ -100,14 +100,14 @@
             margin-bottom: 10px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-        
+
         .video-thumbnail {
             position: relative;
             padding-top: 56.25%; /* 16:9比例 */
             background-size: cover;
             background-position: center;
         }
-        
+
         .video-duration {
             position: absolute;
             bottom: 8px;
@@ -118,11 +118,11 @@
             border-radius: 2px;
             font-size: 12px;
         }
-        
+
         .video-info {
             padding: 8px 10px;
         }
-        
+
         .video-title {
             font-size: 15px;
             font-weight: 500;
@@ -132,17 +132,17 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-        
+
         .video-stats {
             display: flex;
             font-size: 12px;
             color: #999;
         }
-        
+
         .video-stat {
             margin-right: 12px;
         }
-        
+
         /* 隐藏滚动条但保留功能 */
         ::-webkit-scrollbar {
             display: none;
@@ -161,9 +161,10 @@
             <i class="fas fa-download"></i>
         </div>
     </div>
-    
+
     <!-- 内容区域 -->
     <div class="content">
+
         <!-- 分类导航 -->
         <div class="category-nav">
             <div class="category-item active">推荐</div>
@@ -181,7 +182,7 @@
             <div class="category-item">动物</div>
             <div class="category-item">时尚</div>
         </div>
-        
+
         <!-- 视频列表 -->
         <div class="px-2">
             <!-- 视频卡片1 -->
@@ -198,8 +199,9 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- 视频卡片2 -->
+             <a href="video.html">
             <div class="video-card">
                 <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')">
                     <div class="video-duration">21:09</div>
@@ -213,7 +215,7 @@
                     </div>
                 </div>
             </div>
-            
+        </a>
             <!-- 视频卡片3 -->
             <div class="video-card">
                 <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')">
@@ -228,7 +230,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- 视频卡片4 -->
             <div class="video-card">
                 <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')">
@@ -243,7 +245,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- 视频卡片5 -->
             <div class="video-card">
                 <div class="video-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')">
@@ -260,29 +262,26 @@
             </div>
         </div>
     </div>
-    
+
     <!-- 底部导航栏 -->
-    <div class="tab-bar">
-        <div class="tab-item active">
-            <i class="tab-icon fas fa-home"></i>
-            <span>首页</span>
+          <!-- 底部导航栏 -->
+        <div class="tab-bar">
+            <a href="home.html" class="tab-item active">
+                <i class="tab-icon fas fa-home"></i>
+                <span>首页</span>
+            </a>
+            <a href="feed.html" class="tab-item">
+                <i class="tab-icon fas fa-fire"></i>
+                <span>动态</span>
+            </a>
+            <a href="messages.html" class="tab-item">
+                <i class="tab-icon fas fa-bell"></i>
+                <span>消息</span>
+            </a>
+            <a href="profile.html" class="tab-item">
+                <i class="tab-icon fas fa-user"></i>
+                <span>我的</span>
+            </a>
         </div>
-        <div class="tab-item">
-            <i class="tab-icon fas fa-compass"></i>
-            <span>动态</span>
-        </div>
-        <div class="tab-item">
-            <i class="tab-icon fas fa-plus-circle text-xl"></i>
-            <span></span>
-        </div>
-        <div class="tab-item">
-            <i class="tab-icon fas fa-bell"></i>
-            <span>消息</span>
-        </div>
-        <div class="tab-item">
-            <i class="tab-icon fas fa-user"></i>
-            <span>我的</span>
-        </div>
-    </div>
 </body>
 </html>

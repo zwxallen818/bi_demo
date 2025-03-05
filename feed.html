@@ -16,7 +16,7 @@
             height: 100vh;
             overflow: hidden;
         }
-        
+
         /* 状态栏样式 */
         .status-bar {
             height: 44px;
@@ -31,7 +31,7 @@
             top: 0;
             z-index: 50;
         }
-        
+
         /* 导航栏样式 */
         .tab-bar {
             height: 50px;
@@ -43,7 +43,12 @@
             width: 100%;
             z-index: 50;
         }
-        
+
+        .tab-bar a {
+            text-decoration: none;
+            color: inherit;
+        }
+
         .tab-item {
             flex: 1;
             display: flex;
@@ -53,23 +58,23 @@
             color: #999;
             font-size: 10px;
         }
-        
+
         .tab-item.active {
             color: #fb7299;
         }
-        
+
         .tab-icon {
             font-size: 20px;
             margin-bottom: 2px;
         }
-        
+
         /* 内容区域 */
         .content {
             height: calc(100vh - 94px); /* 状态栏+底部导航的高度 */
             overflow-y: auto;
             padding-bottom: 50px;
         }
-        
+
         /* 动态分类导航 */
         .feed-nav {
             display: flex;
@@ -79,7 +84,7 @@
             top: 0;
             z-index: 10;
         }
-        
+
         .feed-nav-item {
             flex: 1;
             text-align: center;
@@ -87,12 +92,12 @@
             font-size: 15px;
             position: relative;
         }
-        
+
         .feed-nav-item.active {
             color: #fb7299;
             font-weight: 500;
         }
-        
+
         .feed-nav-item.active::after {
             content: '';
             position: absolute;
@@ -104,20 +109,20 @@
             background-color: #fb7299;
             border-radius: 1.5px;
         }
-        
+
         /* 动态项 */
         .feed-item {
             background-color: white;
             margin-bottom: 10px;
             padding: 15px;
         }
-        
+
         .feed-header {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .feed-avatar {
             width: 40px;
             height: 40px;
@@ -126,49 +131,49 @@
             background-position: center;
             margin-right: 10px;
         }
-        
+
         .feed-user {
             flex: 1;
         }
-        
+
         .feed-username {
             font-size: 15px;
             font-weight: 500;
             margin-bottom: 2px;
         }
-        
+
         .feed-time {
             font-size: 12px;
             color: #999;
         }
-        
+
         .feed-more {
             color: #999;
         }
-        
+
         .feed-content {
             font-size: 15px;
             line-height: 1.5;
             margin-bottom: 10px;
         }
-        
+
         .feed-media {
             margin-bottom: 10px;
         }
-        
+
         .feed-image-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 5px;
         }
-        
+
         .feed-image {
             padding-top: 100%;
             background-size: cover;
             background-position: center;
             border-radius: 4px;
         }
-        
+
         .feed-video {
             position: relative;
             padding-top: 56.25%;
@@ -177,7 +182,7 @@
             border-radius: 4px;
             margin-bottom: 10px;
         }
-        
+
         .feed-video-play {
             position: absolute;
             top: 50%;
@@ -192,7 +197,7 @@
             justify-content: center;
             color: white;
         }
-        
+
         .feed-video-duration {
             position: absolute;
             bottom: 8px;
@@ -203,13 +208,13 @@
             border-radius: 2px;
             font-size: 12px;
         }
-        
+
         .feed-actions {
             display: flex;
             border-top: 1px solid #f0f0f0;
             padding-top: 10px;
         }
-        
+
         .feed-action {
             flex: 1;
             display: flex;
@@ -218,11 +223,11 @@
             font-size: 13px;
             color: #666;
         }
-        
+
         .feed-action-icon {
             margin-right: 5px;
         }
-        
+
         /* 直播卡片 */
         .live-card {
             background-color: #f8f8f8;
@@ -230,23 +235,23 @@
             padding: 10px;
             margin-top: 10px;
         }
-        
+
         .live-title {
             font-size: 14px;
             font-weight: 500;
             margin-bottom: 5px;
         }
-        
+
         .live-info {
             display: flex;
             font-size: 12px;
             color: #999;
         }
-        
+
         .live-viewers {
             margin-right: 10px;
         }
-        
+
         /* 隐藏滚动条但保留功能 */
         ::-webkit-scrollbar {
             display: none;
@@ -265,7 +270,7 @@
             <i class="fas fa-ellipsis-v"></i>
         </div>
     </div>
-    
+
     <!-- 内容区域 -->
     <div class="content">
         <!-- 动态分类导航 -->
@@ -275,7 +280,7 @@
             <div class="feed-nav-item">综合</div>
             <div class="feed-nav-item">游戏</div>
         </div>
-        
+
         <!-- 动态列表 -->
         <div class="feed-list">
             <!-- 动态项1 - 视频更新 -->
@@ -290,9 +295,9 @@
                         <i class="fas fa-ellipsis-h"></i>
                     </div>
                 </div>
-                
+
                 <div class="feed-content">最新游戏评测来啦！《原神》3.0版本全面解析，新地图、新角色、新剧情，一次看个够！#原神 #游戏评测 #米哈游</div>
-                
+
                 <div class="feed-media">
                     <div class="feed-video" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')">
                         <div class="feed-video-play">
@@ -301,7 +306,7 @@
                         <div class="feed-video-duration">21:09</div>
                     </div>
                 </div>
-                
+
                 <div class="feed-actions">
                     <div class="feed-action">
                         <i class="feed-action-icon fas fa-thumbs-up"></i>
@@ -321,7 +326,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- 动态项2 - 图文 -->
             <div class="feed-item">
                 <div class="feed-header">
@@ -334,9 +339,9 @@
                         <i class="fas fa-ellipsis-h"></i>
                     </div>
                 </div>
-                
+
                 <div class="feed-content">今天在须弥森林探索，发现了这些美丽的风景，分享给大家！#原神 #须弥 #风景</div>
-                
+
                 <div class="feed-media">
                     <div class="feed-image-grid">
                         <div class="feed-image" style="background-image: url('https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')"></div>
@@ -347,7 +352,7 @@
                         <div class="feed-image" style="background-image: url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60')"></div>
                     </div>
                 </div>
-                
+
                 <div class="feed-actions">
                     <div class="feed-action">
                         <i class="feed-action-icon fas fa-thumbs-up"></i>
@@ -358,4 +363,36 @@
                         <span>1.2万</span>
                     </div>
                     <div class="feed-action">
-                        <i class="feed-action-icon
+                        <i class="feed-action-icon fas fa-star"></i>
+                        <span>收藏</span>
+                    </div>
+                    <div class="feed-action">
+                        <i class="feed-action-icon fas fa-share-alt"></i>
+                        <span>分享</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="tab-icon fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="feed.html" class="tab-item active">
+            <i class="tab-icon fas fa-fire"></i>
+            <span>动态</span>
+        </a>
+        <a href="messages.html" class="tab-item">
+            <i class="tab-icon fas fa-bell"></i>
+            <span>消息</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="tab-icon fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </div>
+</body>
+</html>
